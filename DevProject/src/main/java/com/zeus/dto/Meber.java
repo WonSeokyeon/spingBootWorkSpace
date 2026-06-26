@@ -1,0 +1,14 @@
+package com.zeus.dto;
+
+import java.time.LocalDate;
+import lombok.Data;
+
+@Data
+public class Meber {
+	private String userId; 
+	private String password; 
+	private String userName; 
+	private String email; 
+	private LocalDate dateOfBirth; 
+	private String[] hobbyArray;
+}
