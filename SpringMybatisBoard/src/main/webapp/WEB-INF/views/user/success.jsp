@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판</title>
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://rsms.me/inter/inser.css">
 <style>
 @charset "UTF-8";
 /* 노션 라이트모드 디자인 시스템 변수 정의 */
@@ -94,10 +94,10 @@ body {
 		<div class="notion-callout">
 			<span class="notion-callout-emoji">🔔</span>
 			<div class="notion-callout-text">
-				실패하였습니다.</div>
+				성공하였습니다.</div>
 		</div>
 
-		<a href="/board/insertForm" class="notion-link-btn">📁게시판입력으로가기</a>
+		<a href="/user/list" class="notion-link-btn">📁 목록으로 돌아가기</a>
 
 	</div>
 

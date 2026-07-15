@@ -97,7 +97,7 @@ body {
 				실패하였습니다.</div>
 		</div>
 
-		<a href="/board/insertForm" class="notion-link-btn">📁게시판입력으로가기</a>
+		<a href="/user/list" class="notion-link-btn">📁게시판입력으로가기</a>
 
 	</div>
 

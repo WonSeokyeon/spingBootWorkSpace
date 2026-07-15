@@ -21,9 +21,21 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional // 필요 시 클래스 전체에 기본값 설정
 public class BoardController {
 
+    //@Autowired
+    private  BoardService boardService;
+    
+//    @Autowired
+  //  public BoardController(BoardService boardService) 
+    //{ this.boardService = boardService;
+    //} 
     @Autowired
-    private BoardService boardService;
+    public void setBoardService(BoardService boardService) {
+		this.boardService = boardService;
+	}
 
+    
+    
+    
     // 1. 게시판 입력창화면 요청 (읽기 전용)
     @GetMapping(value = "/board/insertForm")
     @Transactional(readOnly = true)
@@ -32,7 +44,8 @@ public class BoardController {
         return "board/insertForm";
     }
 
-    // 2. 게시판 입력 내용 저장 요청 
+
+	// 2. 게시판 입력 내용 저장 요청 
     @PostMapping(value = "/board/insert")
     public String boardInsert(BoardDTO boardDTO, RedirectAttributes rttr) throws Exception {
         log.info("board/insert" + boardDTO.toString());
