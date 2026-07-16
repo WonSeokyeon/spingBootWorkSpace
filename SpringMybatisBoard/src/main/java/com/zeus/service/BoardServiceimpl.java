@@ -12,7 +12,10 @@ import com.zeus.domain.Board;
 import com.zeus.dto.BoardDTO;
 import com.zeus.mapper.BoardMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class BoardServiceimpl implements BoardService {
 
 	@Autowired
@@ -29,18 +32,19 @@ public class BoardServiceimpl implements BoardService {
 		board.setWriter(boardDTO.getWriter());
 		board.setContent(boardDTO.getContent());
 
-		int count =mapper.insert(board);
-		return count==0? false : true;
+		int count = mapper.insert(board);
+		return count == 0 ? false : true;
 	}
 
 	@Override
-	@Transactional()
+	@Transactional(readOnly = true)
 	public BoardDTO select(BoardDTO boardDTO) throws Exception {
-		
+
 		Board board = new Board();
-		board.setBoardNo(board.getBoardNo());
+		board.setBoardNo(boardDTO.getBoardNo());
+		log.info("serviceIMPL += "+ board.toString());
 		board = mapper.select(board);
-		
+
 		boardDTO.setBoardNo((board.getBoardNo()));
 		boardDTO.setTitle(board.getTitle());
 		boardDTO.setContent(board.getContent());
@@ -52,25 +56,26 @@ public class BoardServiceimpl implements BoardService {
 	@Override
 	@Transactional
 	public boolean update(BoardDTO boardDTO) throws Exception {
-		
-			Board board = new Board();
-			board.setBoardNo(boardDTO.getBoardNo());
-			board.setTitle(boardDTO.getTitle());
-			board.setWriter(boardDTO.getWriter());
-			board.setContent(boardDTO.getContent());
 
-			int count = mapper.update(board);
-			
-			return count ==0? false : true;
+		Board board = new Board();
+		board.setBoardNo(boardDTO.getBoardNo());
+		board.setTitle(boardDTO.getTitle());
+		board.setWriter(boardDTO.getWriter());
+		board.setContent(boardDTO.getContent());
+
+		int count = mapper.update(board);
+
+		return count == 0 ? false : true;
 	}
 
 	@Override
+	@Transactional
 	public boolean delete(BoardDTO boardDTO) throws Exception {
 
-			Board board = new Board();
-			board.setBoardNo(boardDTO.getBoardNo());
-			int count = mapper.delete(board);
-			return count ==0? false : true;
+		Board board = new Board();
+		board.setBoardNo(boardDTO.getBoardNo());
+		int count = mapper.delete(board);
+		return count == 0 ? false : true;
 	}
 
 	@Override
@@ -78,7 +83,7 @@ public class BoardServiceimpl implements BoardService {
 
 	public List<BoardDTO> list() throws Exception {
 		List<Board> list = mapper.list();
-		
+
 		if (list.size() <= 0) {
 			return null;
 		}
@@ -97,23 +102,24 @@ public class BoardServiceimpl implements BoardService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<BoardDTO> search(BoardDTO boardDTO) throws Exception {
-	List<Board> list = mapper.search(boardDTO.getTitle());
-	if (list.size() <= 0) {
-		return null;
-	}
+		List<Board> list = mapper.search(boardDTO.getTitle());
+		if (list.size() <= 0) {
+			return null;
+		}
 
-	List<BoardDTO> listDTO = new ArrayList<>();
-	for (Board board : list) {
-		BoardDTO _boardDTO = new BoardDTO();
-		_boardDTO.setBoardNo(board.getBoardNo());
-		_boardDTO.setContent(board.getContent());
-		_boardDTO.setRegDate(board.getRegDate());
-		_boardDTO.setTitle(board.getTitle());
-		_boardDTO.setWriter(board.getWriter());
-		listDTO.add(_boardDTO);
-	}
-	
+		List<BoardDTO> listDTO = new ArrayList<>();
+		for (Board board : list) {
+			BoardDTO _boardDTO = new BoardDTO();
+			_boardDTO.setBoardNo(board.getBoardNo());
+			_boardDTO.setContent(board.getContent());
+			_boardDTO.setRegDate(board.getRegDate());
+			_boardDTO.setTitle(board.getTitle());
+			_boardDTO.setWriter(board.getWriter());
+			listDTO.add(_boardDTO);
+		}
+
 		return listDTO;
 	}
 

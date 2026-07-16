@@ -26,10 +26,6 @@ public class BoardController {
 	// @Autowired
 	private BoardService boardService;
 
-//    @Autowired
-	// public BoardController(BoardService boardService)
-	// { this.boardService = boardService;
-	// }
 	@Autowired
 	public void setBoardService(BoardService boardService) {
 		this.boardService = boardService;
@@ -37,7 +33,6 @@ public class BoardController {
 
 	// 1. 게시판 입력창화면 요청 (읽기 전용)
 	@GetMapping(value = "/board/insertForm")
-	@Transactional(readOnly = true)
 	public String boardInsertForm(BoardDTO boardDTO, Model model) {
 		model.addAttribute("boardDTO", boardDTO);
 		return "board/insertForm";
@@ -61,7 +56,6 @@ public class BoardController {
 
 	// 3. 게시판 리스트 요청 (읽기 전용)
 	@GetMapping(value = "/board/list")
-	@Transactional(readOnly = true)
 	public String boardList(Model model) throws Exception {
 		List<BoardDTO> list = boardService.list();
 		if (list == null || list.isEmpty()) {
@@ -73,17 +67,18 @@ public class BoardController {
 
 	// 4. 게시글 요청 (읽기 전용)
 	@GetMapping(value = "/board/select")
-	@Transactional(readOnly = true)
-	public String boardselect(BoardDTO boardDTO, Model model) throws Exception {
-		if (boardDTO.getBoardNo() <= 0)
-			return "board/fail";
-//        
-//        BoardDTO result = boardService.select(boardDTO);
-//        if (result == null) return "board/fail";
-
-		model.addAttribute("boardDTO", null);
-		return "board/select";
-	}
+    public String boardSelect(BoardDTO boardDto, Model model) throws Exception {
+        if (boardDto.getBoardNo() <= 0) {
+            return "board/fail";
+        }
+        log.info("board select ="+ boardDto.toString());
+        boardDto = boardService.select(boardDto);
+        if (boardDto == null) {
+            return "board/fail";
+        }
+        model.addAttribute("boardDto", boardDto);
+        return "board/select";
+    }
 
 	// 5. 게시글 삭제 요청
 	@GetMapping(value = "/board/delete")
@@ -98,18 +93,16 @@ public class BoardController {
 
 	// 6. 게시판 수정폼 화면 요청 (읽기 전용)
 	@GetMapping(value = "/board/updateForm")
-	@Transactional(readOnly = true)
 	public String boardUpdateForm(BoardDTO boardDTO, Model model) throws Exception {
 		if (boardDTO.getBoardNo() <= 0)
 			return "board/fail";
-//        
-//        BoardDTO result = boardService.select(boardDTO);
-		model.addAttribute("boardDTO", null);
+        BoardDTO result = boardService.select(boardDTO);
+		model.addAttribute("boardDTO", result);
 		return "board/updateForm";
 	}
 
 	// 7. 게시판 내용 수정 요청
-	@PostMapping(value = "/board/updateForm")
+	@PostMapping(value = "/board/update")
 	public String boardUpdate(BoardDTO boardDTO) throws Exception {
 		if (boardDTO.getBoardNo() <= 0)
 			return "board/fail";

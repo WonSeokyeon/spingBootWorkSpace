@@ -12,7 +12,7 @@
 		var formObj = $("#boardDTO");
 		$("#btnInsert").on("click", function() {
 			formObj.attr("action", "/board/insert");
-			formObj.attr("method", "post");
+			formObj.attr("method", "POST");
 			formObj.submit();
 		});
 		$("#btnList").on("click", function() {

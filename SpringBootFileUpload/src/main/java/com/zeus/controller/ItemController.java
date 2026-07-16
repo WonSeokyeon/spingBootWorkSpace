@@ -105,10 +105,8 @@ public class ItemController {
 				File _file = new File(uploadPath + File.separator + oldFileName);
 				 if(_file.exists()) {
 					 _file.delete();
-				 }
-				
+				 }	
 			}
-
 		} else {
 
 		}
