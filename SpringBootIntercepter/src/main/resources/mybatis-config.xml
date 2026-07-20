@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<configuration> 
+ <settings> 
+  <!-- mapUnderscoreToCamelCase 프로퍼티 값을 true로 지정 오라클 데이블에서 필드명 board no-> board no 동일하게 처리해줄께 --> 
+  <setting name="mapUnderscoreToCamelCase" value="true" /> 
+ </settings> 
+ <typeAliases>
+        <package name="com.zeus.domain" />
+    </typeAliases>
+ 
+</configuration> 
