@@ -1,0 +1,13 @@
+package com.zeus.exception;
+
+// 사용자가 정의하는 예외처리
+public class BoardRecordNotFoundException extends Exception {
+	//생성자
+	public BoardRecordNotFoundException(String message) {
+		super(message);
+	}
+	
+	
+	
+
+}

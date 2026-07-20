@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.zeus.dto.BoardDTO;
+import com.zeus.exception.BoardRecordNotFoundException;
 import com.zeus.service.BoardService;
 
 import jakarta.validation.constraints.Positive;
@@ -67,18 +68,19 @@ public class BoardController {
 
 	// 4. 게시글 요청 (읽기 전용)
 	@GetMapping(value = "/board/select")
-    public String boardSelect(BoardDTO boardDto, Model model) throws Exception {
-        if (boardDto.getBoardNo() <= 0) {
-            return "board/fail";
-        }
-        log.info("board select ="+ boardDto.toString());
-        boardDto = boardService.select(boardDto);
-        if (boardDto == null) {
-            return "board/fail";
-        }
-        model.addAttribute("boardDto", boardDto);
-        return "board/select";
-    }
+	public String boardSelect(BoardDTO boardDTO, Model model) throws Exception {
+		if (boardDTO.getBoardNo() <= 0) {
+			return "board/fail";
+		}
+		boardDTO = boardService.select(boardDTO);
+		if (boardDTO == null) {
+//			return "board/fail";
+			throw new BoardRecordNotFoundException(boardDTO.getBoardNo()+"번 게시글은 없는 게시글입니다.!");
+		}
+		model.addAttribute("boardDTO", boardDTO);
+		return "board/select";
+	}
+		
 
 	// 5. 게시글 삭제 요청
 	@GetMapping(value = "/board/delete")
